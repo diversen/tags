@@ -9,11 +9,18 @@ class tags {
 
     public static $errors = array();
     public static $tagsTable = 'tags';
+    public static $tagsReferenceTable = 'tags_reference';
 
-    public static function defaultWidget (){
+    /**
+     *
+     * @param string $name name of the input
+     * @param string $value value of the input. 
+     * @return string   the tag widget
+     */
+    public static function defaultWidget ($name, $value){
         $str = <<<EOD
 <div class="ui-widget">
-	<input type="text" name="tags" id="tags" size="50" />
+	<input type="text" name="$name" id="tags" size="50" value="$value" />
 </div>
 EOD;
      return $str;
@@ -28,6 +35,20 @@ EOD;
         $values = db::prepareToPost($_POST);
         $res = $db->insert(self::$tagsTable, $values);
         return $res;
+    }
+
+    public static function addReference($tags, $reference, $id) {
+        $tags_ary = self::parse($tags);
+        //print_r($tags_ary); die;
+        
+        $db = new db();
+        $values = array();
+        $values['reference_name'] = $reference;
+        $values['reference_id'] = $id;
+        foreach ($tags_ary as $key => $val){
+            $values['tags_id'] = $val;
+            $db->insert(self::$tagsReferenceTable, $values);
+        }
     }
     
     public static function prepare (){
@@ -114,8 +135,22 @@ EOD;
 
 
     public static function parse ($tags){
+        $db = new db();
+        $ary = explode(',', $tags);
+        foreach ($ary as $key => $val) {
+            $ary[$key] = trim($val);
+        }
+        $ary = array_unique($ary);
+        foreach($ary as $key => $val){
+            $row = $db->selectOne(self::$tagsTable, 'title', $val);
+            if ($row){
+                $ary[$key] = $row['id'];
+            } else {
+                unset($ary[$key]);
+            }
+        }
         
-
+        return $ary;
     }
 
     public static function delete (){
