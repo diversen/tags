@@ -47,7 +47,6 @@ EOD;
     }
 
     public static function getTagSingle ($id){
-
         $db = new db();
         $row = $db->selectOne(self::$tagsTable, 'id', $id);
         return $row;
