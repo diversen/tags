@@ -26,10 +26,19 @@ EOD;
      return $str;
     }
 
+    /**
+     * method for getting a tag id
+     * used only when on admin page.
+     * @return string   uri fragment
+     */
     public static function getEntryId (){
         return uri::$fragments[2];
     }
 
+    /**
+     * method for add a tag to database table
+     * @return boolean  database result from insert
+     */
     public static function add (){
         $db = new db();
         $values = db::prepareToPost($_POST);
@@ -37,10 +46,14 @@ EOD;
         return $res;
     }
 
+    /**
+     * method for adding a reference to database.
+     * @param string $tags (e.g. "Misc, Drupal, Another Tag, )
+     * @param string $reference (e.g. 'blog'
+     * @param int    $id (e.g. 27, a unique id for blog a blog entry)
+     */
     public static function addReference($tags, $reference, $id) {
         $tags_ary = self::parse($tags);
-        //print_r($tags_ary); die;
-        
         $db = new db();
         $values = array();
         $values['reference_name'] = $reference;
@@ -49,6 +62,31 @@ EOD;
             $values['tags_id'] = $val;
             $db->insert(self::$tagsReferenceTable, $values);
         }
+    }
+    
+    public static function updateReference ($tags, $reference, $id){
+        
+    }
+
+    public static function deleteReference ($reference, $id) {
+
+    }
+    /**
+     *
+     * @param string $reference (e.g. 'blog')
+     * @param int    $id (e.g. blog_id
+     */
+    public static function getReference($reference, $id) {
+        $db = new db();
+        $search = array ('reference_name' => $reference, 'reference_id' => $id);
+        $tags = $db->selectAll(self::$tagsReferenceTable, null, $search);
+
+        $tags_str = '';
+        foreach ($tags as $key => $val){
+            $tag = $db->selectOne(self::$tagsTable, 'id', $val['tags_id']);
+            $tags_str.= $tag['title'] . ", ";
+        }
+        return $tags_str;
     }
     
     public static function prepare (){
@@ -95,9 +133,7 @@ EOD;
 
         $db = new db();
         $rows = $db->selectAll(self::$tagsTable, null, null, $pager->from, TAGS_PER_PAGE, 'title');
-
         include_view('tags', 'view', $rows);
-
         $pager->pearPage();
     }
 
@@ -131,8 +167,6 @@ EOD;
         }
         include_view('tags', 'delete');
     }
-
-
 
     public static function parse ($tags){
         $db = new db();
