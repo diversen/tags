@@ -63,13 +63,17 @@ EOD;
             $db->insert(self::$tagsReferenceTable, $values);
         }
     }
+
     
     public static function updateReference ($tags, $reference, $id){
-        
+        self::deleteReference($reference, $id);
+        self::addReference($tags, $reference, $id);
     }
 
     public static function deleteReference ($reference, $id) {
-
+        $db = new db();
+        $search = array ('reference_id' => $id, 'reference_name' => $reference);
+        return $db->delete(self::$tagsReferenceTable, null, $search);
     }
     /**
      *
