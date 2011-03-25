@@ -46,6 +46,13 @@ EOD;
         return $res;
     }
 
+    public static function getTagSingle ($id){
+
+        $db = new db();
+        $row = $db->selectOne(self::$tagsTable, 'id', $id);
+        return $row;
+    }
+
     /**
      * method for adding a reference to database.
      * @param string $tags (e.g. "Misc, Drupal, Another Tag, )
@@ -76,14 +83,14 @@ EOD;
         return $db->delete(self::$tagsReferenceTable, null, $search);
     }
     /**
-     *
-     * @param string $reference (e.g. 'blog')
-     * @param int    $id (e.g. blog_id
+     * returns tag references as a string
+     * @param   string $reference (e.g. 'blog')
+     * @param   int    $id (e.g. blog_id
+     * @return  string $tags_str (tags as a string)
      */
-    public static function getReference($reference, $id) {
+    public static function getReferenceAsString($reference, $id) {
         $db = new db();
-        $search = array ('reference_name' => $reference, 'reference_id' => $id);
-        $tags = $db->selectAll(self::$tagsReferenceTable, null, $search);
+        $tags = self::getReferenceAsArray($reference, $id);
 
         $tags_str = '';
         foreach ($tags as $key => $val){
@@ -92,12 +99,54 @@ EOD;
         }
         return $tags_str;
     }
+
+    public static function getReferenceAsArray ($reference, $id) {
+        $db = new db();
+        $search = array ('reference_name' => $reference, 'reference_id' => $id);
+        $references = $db->selectAll(self::$tagsReferenceTable, null, $search);
+        return $references;
+    }
+
+    public static function getReferenceAsTags ($reference, $id){
+        $db = new db();
+        $references = self::getReferenceAsArray($reference, $id);
+        $tags = array();
+        foreach ($references as $key => $val){
+            $tags[] = $db->selectOne(self::$tagsTable, 'id', $val['tags_id']);
+        }
+        return $tags;
+    }
+
+    /**
+     * returns a html string with all tags
+     * conected to reference, id as links
+     * 
+     * @param   string $reference (e.g. 'blog')
+     * @param   int    $id (the unique id of the entry e.g. 23)
+     * @param   string $tag_page (path to base which will handle the tag.
+     * @return  string $tag_str (a html string with all tags as links)
+     */
+    public static function getTagReferenceAsHTML ($reference, $id, $tag_page = ''){
+        $tags = self::getReferenceAsTags($reference, $id);
+        $str = '';
+        $num_tags = count($tags);
+
+        foreach ($tags as $key => $val){
+            $url = $tag_page . "/$val[id]/" . cos_sanitize_url($val['title']);
+            $extra = array ('title' => $val['description']);
+            $str.=html::createLink($url, $val['title'], $extra);
+            $num_tags--;
+            if ($num_tags)$str.=MENU_SUB_SEPARATOR;
+        }
+        return $str;
+    }
     
     public static function prepare (){
         if (empty($_POST['title'])){
             self::$errors['title'] = lang::translate('tags_error_no_title');
         }
-        $_POST = html::entitiesEncode($_POST);
+        $_POST['title'] = cos_sanitize_url($_POST['title']);
+        $_POST['description'] = cos_htmlentities($_POST['description']);
     }
 
     public static function getNumTags (){
@@ -127,6 +176,28 @@ EOD;
             }
         }       
         include_view('tags', 'add');        
+    }
+
+    public static function getAllReferenceTag ($reference, $tag_id, $from = 0, $limit = 10){
+        $db = new db();
+        $sql = "SELECT reference_id FROM tags_reference WHERE ";
+        $sql.= "`reference_name` = " . db::$dbh->quote($reference) . " AND ";
+        $sql.= "`tags_id` = " . db::$dbh->quote($tag_id) ." ";
+        $sql.= "LIMIT " . $from . " , " .  $limit;
+        $rows = $db->selectQuery($sql);
+
+        $ary = array();
+        foreach($rows as $key => $val) {
+            $ary[] = $val['reference_id'];
+        }
+        return $ary;
+    }
+
+    public static function getAllReferenceTagNumRows($reference, $tag_id){
+        $db = new db();
+        $search = array ('reference_name' => $reference, 'tags_id' => $tag_id);
+        return $db->getNumRows(self::$tagsReferenceTable, $search);
+
     }
 
     public static function indexController (){
