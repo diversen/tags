@@ -26,9 +26,7 @@ class tags {
         $options = html::parseExtra($options);
 
         $str = <<<EOD
-<div class="ui-widget">
 	<input type="text" name="$name" id="tags" $options value="$value" />
-</div>
 EOD;
      return $str;
     }
