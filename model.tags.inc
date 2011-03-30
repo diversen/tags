@@ -17,10 +17,17 @@ class tags {
      * @param string $value value of the input. 
      * @return string   the tag widget
      */
-    public static function defaultWidget ($name, $value){
+    public static function defaultWidget ($name, $value, $options = array()){
+        if (!isset($options['size'])){
+            $options['size'] = HTML_FORM_TEXT_SIZE;
+        }
+        
+        //$value = self::setValue($name, $value);
+        $options = html::parseExtra($options);
+
         $str = <<<EOD
 <div class="ui-widget">
-	<input type="text" name="$name" id="tags" size="50" value="$value" />
+	<input type="text" name="$name" id="tags" $options value="$value" />
 </div>
 EOD;
      return $str;
