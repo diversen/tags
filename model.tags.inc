@@ -26,7 +26,7 @@ class tags {
         $options = html::parseExtra($options);
 
         $str = <<<EOD
-	<input type="text" name="$name" id="tags" $options value="$value" />
+	<input type="text" name="$name" id="tags" $options value="$value" /><br />
 EOD;
      return $str;
     }
