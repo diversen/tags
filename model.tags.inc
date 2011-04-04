@@ -1,7 +1,6 @@
 <?php
 
-template::setInlineCss(_COS_PATH . "/modules/tags/tags.css");
-template::setInlineJs(_COS_PATH . "/modules/tags/tags.js");
+
 
 define ('TAGS_PER_PAGE', get_module_ini('tags_per_page'));
 
@@ -18,6 +17,8 @@ class tags {
      * @return string   the tag widget
      */
     public static function defaultWidget ($name, $value, $options = array()){
+        template::setInlineCss(_COS_PATH . "/modules/tags/tags.css");
+        template::setInlineJs(_COS_PATH . "/modules/tags/tags.js");
         if (!isset($options['size'])){
             $options['size'] = HTML_FORM_TEXT_SIZE;
         }
@@ -197,6 +198,15 @@ EOD;
         return $ary;
     }
 
+    public static function getAllReferenceTagWithoutReference ($tag_id, $from = 0, $limit = 10){
+        $db = new db();
+        $sql = "SELECT * FROM tags_reference WHERE ";
+        $sql.= "`tags_id` = " . db::$dbh->quote($tag_id) ." ";
+        $sql.= "LIMIT " . $from . " , " .  $limit;
+        $rows = $db->selectQuery($sql);
+        return $rows;
+    }
+
     public static function getAllReferenceTagNumRows($reference, $tag_id){
         $db = new db();
         $search = array ('reference_name' => $reference, 'tags_id' => $tag_id);
@@ -291,4 +301,6 @@ EOD;
         echo MENU_SUB_SEPARATOR;
         echo html::createLink("/tags/delete/$val[id]", lang::translate('tags_admin_delete'));
     }
+
+    
 }
