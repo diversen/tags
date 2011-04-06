@@ -45,9 +45,11 @@ EOD;
      * method for add a tag to database table
      * @return boolean  database result from insert
      */
-    public static function add (){
+    public static function add ($values = null){
         $db = new db();
-        $values = db::prepareToPost($_POST);
+        if (!$values) {
+            $values = db::prepareToPost($_POST);
+        }
         $res = $db->insert(self::$tagsTable, $values);
         return $res;
     }
@@ -55,6 +57,12 @@ EOD;
     public static function getTagSingle ($id){
         $db = new db();
         $row = $db->selectOne(self::$tagsTable, 'id', $id);
+        return $row;
+    }
+
+    public static function getTagSingleFromTitle ($title){
+        $db = new db();
+        $row = $db->selectOne(self::$tagsTable, 'title', $title);
         return $row;
     }
 
@@ -66,10 +74,12 @@ EOD;
      */
     public static function addReference($tags, $reference, $id) {
         $tags_ary = self::parse($tags);
+
         $db = new db();
         $values = array();
         $values['reference_name'] = $reference;
         $values['reference_id'] = $id;
+
         foreach ($tags_ary as $key => $val){
             $values['tags_id'] = $val;
             $db->insert(self::$tagsReferenceTable, $values);
@@ -146,10 +156,23 @@ EOD;
         return $str;
     }
     
-    public static function prepare (){
+    public static function prepare ($action = 'insert'){
         if (empty($_POST['title'])){
             self::$errors['title'] = lang::translate('tags_error_no_title');
         }
+
+        $row = self::getTagSingleFromTitle($_POST['title']);
+        if (!empty($row)){
+            if ($action == 'insert') {
+                self::$errors['title'] = 'tags_error_exists';
+            } else if ($action == 'update'){
+                $id = self::getEntryId();
+                if ($id  != $row['id']) {
+                    self::$errors['title'] = 'tags_error_exists';
+                }
+            }
+        }
+
         $_POST['title'] = cos_sanitize_url($_POST['title']);
         $_POST['description'] = cos_htmlentities($_POST['description']);
     }
@@ -228,7 +251,7 @@ EOD;
 
     public static function updateController (){     
         if (isset($_POST['submit'])){
-            self::prepare();
+            self::prepare('update');
             if (!empty(self::$errors)){
                 view_form_errors(self::$errors);
             } else {
@@ -269,10 +292,18 @@ EOD;
             if ($row){
                 $ary[$key] = $row['id'];
             } else {
-                unset($ary[$key]);
+                if (get_module_ini('tags_auto_add')){
+                    $tag = array ();
+                    $tag['title'] = $val;
+                    $tag['title'] = cos_sanitize_url($tag['title']);
+                    error_log(var_dump($tag));
+                    self::add($tag);
+                    $ary[$key] = db::$dbh->lastInsertId();
+                } else {
+                    unset($ary[$key]);
+                }
             }
-        }
-        
+        }     
         return $ary;
     }
 
