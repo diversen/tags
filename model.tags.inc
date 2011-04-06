@@ -49,6 +49,9 @@ EOD;
         $db = new db();
         if (!$values) {
             $values = db::prepareToPost($_POST);
+            if (isset($_POST['is_main'])){
+                $values['is_main'] = 1;
+            }
         }
         $res = $db->insert(self::$tagsTable, $values);
         return $res;
@@ -316,7 +319,18 @@ EOD;
     public static function update (){
         $db = new db();
         $values = db::prepareToPost();
+        if (!isset($_POST['is_main'])){
+            $values['is_main'] = 0;
+        } else {
+            $values['is_main'] = 1;
+        }
         return $db->update(self::$tagsTable, $values, self::getEntryId());
+    }
+
+    public static function getMainTags (){
+        $db = new db();
+        $rows = $db->selectAll(self::$tagsTable, null, array('is_main' => 1));
+        return $rows;
     }
 
     public static function getUserTags (){
