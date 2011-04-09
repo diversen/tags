@@ -49,6 +49,7 @@ EOD;
         $db = new db();
         if (!$values) {
             $values = db::prepareToPost($_POST);
+            
             if (isset($_POST['is_main'])){
                 $values['is_main'] = 1;
             }
@@ -160,6 +161,7 @@ EOD;
     }
     
     public static function prepare ($action = 'insert'){
+        $_POST['title'] = trim($_POST['title']);
         if (empty($_POST['title'])){
             self::$errors['title'] = lang::translate('tags_error_no_title');
         }
@@ -287,7 +289,13 @@ EOD;
         $db = new db();
         $ary = explode(',', $tags);
         foreach ($ary as $key => $val) {
-            $ary[$key] = trim($val);
+            $val = trim($val);
+            if (empty($val)){
+                unset($ary[$key]);
+            } else {
+                $ary[$key] = $val;
+            }
+            
         }
         $ary = array_unique($ary);
         foreach($ary as $key => $val){
