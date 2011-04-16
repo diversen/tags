@@ -22,3 +22,5 @@ $_COS_LANG_MODULE['tags_updated_tag_action_message'] = 'Tag Updated';
 $_COS_LANG_MODULE['tags_deleted_tag_action_message'] = 'Tag Deleted';
 $_COS_LANG_MODULE['tags_admin_edit'] = 'Edit';
 $_COS_LANG_MODULE['tags_admin_delete'] = 'Delete';
+
+$_COS_LANG_MODULE['tags_is_main'] = 'Main tag';

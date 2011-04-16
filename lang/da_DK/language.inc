@@ -26,3 +26,5 @@ $_COS_LANG_MODULE['tags_updated_tag_action_message'] = 'Tag er opdateret';
 $_COS_LANG_MODULE['tags_deleted_tag_action_message'] = 'Tag er slettet';
 $_COS_LANG_MODULE['tags_admin_edit'] = 'Ret';
 $_COS_LANG_MODULE['tags_admin_delete'] = 'Slet';
+
+$_COS_LANG_MODULE['tags_is_main'] = 'Hoved tag';

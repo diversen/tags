@@ -246,7 +246,7 @@ EOD;
         include_once "pearPager.php";
 
         $num_tags = self::getNumTags();
-        $pager = new pearPager($num_tags, TAGS_PER_PAGE);
+        $pager = new pearPager($num_tags, get_module_ini('tags_per_page'));
 
         $db = new db();
         $rows = $db->selectAll(self::$tagsTable, null, null, $pager->from, TAGS_PER_PAGE, 'title');
