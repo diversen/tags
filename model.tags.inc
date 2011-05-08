@@ -151,7 +151,7 @@ EOD;
         $num_tags = count($tags);
 
         foreach ($tags as $key => $val){
-            $url = $tag_page . "/$val[id]/" . cos_sanitize_url($val['title']);
+            $url = $tag_page . "/$val[id]/" . $val['title'];
             $extra = array ('title' => $val['description']);
             $str.=html::createLink($url, $val['title'], $extra);
             $num_tags--;
@@ -306,8 +306,7 @@ EOD;
                 if (get_module_ini('tags_auto_add')){
                     $tag = array ();
                     $tag['title'] = $val;
-                    $tag['title'] = cos_sanitize_url($tag['title']);
-                    error_log(var_dump($tag));
+                    $tag['title'] = html::entitiesEncode($tag['title']);
                     self::add($tag);
                     $ary[$key] = db::$dbh->lastInsertId();
                 } else {

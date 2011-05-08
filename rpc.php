@@ -3,7 +3,7 @@
 $db = new db();
 
 if(isset($_GET['term'])) {
-    $queryString = html::entitiesEncode($_GET['term']);
+    $queryString = $_GET['term'];
     $at_least = get_module_ini('tags_min_chars');
     if (!isset($at_least)) {
         $at_least = 2;
