@@ -306,7 +306,6 @@ EOD;
                 if (get_module_ini('tags_auto_add')){
                     $tag = array ();
                     $tag['title'] = $val;
-                    $tag['title'] = html::entitiesEncode($tag['title']);
                     self::add($tag);
                     $ary[$key] = db::$dbh->lastInsertId();
                 } else {
