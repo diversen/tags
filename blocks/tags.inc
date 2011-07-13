@@ -7,7 +7,7 @@ include_module ('tags');
 function block_tags (){
     $str = '';
     $str.= "<h3>" . lang::translate('tags_main') . "</h3>\n";
-    $str.= "<div id =\"block\">\n";
+    $str.= "<div class =\"block\">\n";
     $str.= "<ul>\n";
     $elements = tags::getMainTags();
     foreach ($elements as $key => $val) {
