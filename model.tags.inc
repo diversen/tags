@@ -90,7 +90,6 @@ EOD;
         }
     }
 
-    
     public static function updateReference ($tags, $reference, $id){
         self::deleteReference($reference, $id);
         self::addReference($tags, $reference, $id);

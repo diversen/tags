@@ -10,7 +10,7 @@ if(isset($_GET['term'])) {
     }
 
     if(strlen($queryString) > $at_least) {
-        $query = "SELECT id, title as label FROM tags WHERE title LIKE ". db::$dbh->quote("%" . $queryString . "%");
+        $query = "SELECT id, title as label FROM tags WHERE title LIKE ". db::$dbh->quote("" . $queryString . "%");
         error_log($query);
         $rows = $db->selectQuery($query);
         $json = json_encode($rows);
