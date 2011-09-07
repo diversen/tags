@@ -49,11 +49,14 @@ EOD;
         $db = new db();
         if (!$values) {
             $values = db::prepareToPost($_POST);
-            
             if (isset($_POST['is_main'])){
                 $values['is_main'] = 1;
             }
         }
+        
+        // create a clean tag. 
+        $values['title'] = html::sanitizeUrlSimple($values['title']);
+        if (empty($values['title'])) return false;
         $res = $db->insert(self::$tagsTable, $values);
         return $res;
     }
@@ -343,7 +346,9 @@ EOD;
     }
 
     public static function getAllTags (){
-
+        $db = new QBuilder();
+        $db->setSelect(self::$tagsTable);       
+        return $db->fetch();
     }
 
     public static function viewAdminLinks (&$val){
