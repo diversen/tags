@@ -15,7 +15,8 @@ $_INSTALL['MAIN_MENU_ITEM'] = array (
     'module_name' => 'tags',
     'parent' => 0,
     'weight' => 2,
-    'admin_only' => 1
+    'admin_only' => 1,
+    'section' => 'content'
 );
 
 // This sets the public clone URL
