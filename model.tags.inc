@@ -26,8 +26,10 @@ class tags {
         //$value = self::setValue($name, $value);
         $options = html::parseExtra($options);
 
+        
         $str = <<<EOD
-	<input type="text" name="$name" id="tags" $options value="$value" /><br />
+	<input type="text" name="$name" id="tags" $options value="$value" />
+        <br />
 EOD;
      return $str;
     }
@@ -356,6 +358,31 @@ EOD;
         echo MENU_SUB_SEPARATOR;
         echo html::createLink("/tags/delete/$val[id]", lang::translate('tags_admin_delete'));
     }
-
     
+    public static function eventCrud ($params) {
+        $tags = $_POST['tags'];
+        unset($_POST['tags']);
+        if ($params['action'] == 'update') {
+            $res = tags::updateReference(
+                $tags, 
+                $params['reference'], 
+                $params['id']
+            );
+        }
+        
+        if ($params['action'] == 'insert') {
+            $res = tags::addReference(
+                $tags, 
+                $params['reference'], 
+                $params['id']
+            );
+        }
+        
+        if ($params['action'] == 'delete') {
+            $res = tags::deleteReference(
+                $params['reference'], 
+                $params['id']);
+            
+        }
+    }
 }

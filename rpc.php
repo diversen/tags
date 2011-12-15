@@ -6,7 +6,7 @@ if(isset($_GET['term'])) {
     $queryString = $_GET['term'];
     $at_least = get_module_ini('tags_min_chars');
     if (!isset($at_least)) {
-        $at_least = 2;
+        $at_least = 0;
     }
 
     if(strlen($queryString) > $at_least) {
