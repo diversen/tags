@@ -1,11 +1,27 @@
 <?php
 
+/**
+ * This is the model file of the module tags.
+ * It provides user interface for adding tags, and also some options for
+ * including the tag module both as a event system and as submodule.  
+ * @package tags
+ */
 
-
+/**
+ * Tags per page
+ */
 define ('TAGS_PER_PAGE', get_module_ini('tags_per_page'));
 
+/**
+ * clsas for file for model tags. 
+ * @package tags
+ */
 class tags {
 
+    /**
+     * var for holding errors when adding tags with form
+     * @var array $errors
+     */
     public static $errors = array();
     public static $tagsTable = 'tags';
     public static $tagsReferenceTable = 'tags_reference';
@@ -17,21 +33,22 @@ class tags {
      * @return string   the tag widget
      */
     public static function defaultWidget ($name, $value, $options = array()){
-        template::setInlineCss(_COS_PATH . "/modules/tags/tags.css");
-        template::setInlineJs(_COS_PATH . "/modules/tags/tags.js");
+        self::initJs();
         if (!isset($options['size'])){
             $options['size'] = HTML_FORM_TEXT_SIZE;
         }
-        
-        //$value = self::setValue($name, $value);
-        $options = html::parseExtra($options);
-
-        
+       
+        $options = html::parseExtra($options); 
         $str = <<<EOD
 	<input type="text" name="$name" id="tags" $options value="$value" />
         <br />
 EOD;
-     return $str;
+        return $str;
+    }
+    
+    public static function initJs () {
+        template::setInlineCss(_COS_PATH . "/modules/tags/tags.css");
+        template::setInlineJs(_COS_PATH . "/modules/tags/tags.js");
     }
 
     /**
@@ -359,14 +376,22 @@ EOD;
         echo html::createLink("/tags/delete/$val[id]", lang::translate('tags_admin_delete'));
     }
     
-    public static function eventCrud ($params) {
-        $tags = $_POST['tags'];
-        unset($_POST['tags']);
+    public static function eventForm ($label) {
+        html::label('tags', lang::translate('blog_tags'));
+        html::widget('tags', 'defaultWidget', 'tags');
+    }
+    
+    public static function events ($params) {
+        if (isset($_POST['tags'])) {
+            $tags = $_POST['tags'];
+        }
+        
+        // should sanitize in above functions.
         if ($params['action'] == 'update') {
             $res = tags::updateReference(
                 $tags, 
                 $params['reference'], 
-                $params['id']
+                $params['parent_id']
             );
         }
         
@@ -374,15 +399,48 @@ EOD;
             $res = tags::addReference(
                 $tags, 
                 $params['reference'], 
-                $params['id']
+                $params['parent_id']
             );
         }
         
         if ($params['action'] == 'delete') {
             $res = tags::deleteReference(
                 $params['reference'], 
-                $params['id']);
+                $params['parent_id']);
             
+        }
+        if ($params['action'] == 'form') {
+            if (isset($params['parent_id'])  && isset($params['reference'])) {
+                $value = tags::getReferenceAsString($params['reference'], $params['parent_id']);
+            } else {
+                $value = null;
+            }
+
+            if (isset($params['extra'])) {
+                $extra = $params['extra'];
+            } else {
+                $extra = array();
+            }
+            $extra['id'] = 'tags';
+            self::initJs();
+            html::label('tags', lang::translate('tags'));
+            html::text('tags', $value, $extra);
+        }
+        if ($params['action'] == 'view') {
+            $params['parent_id'];
+            $tags_html = tags::getTagReferenceAsHTML(
+                $params['reference'], 
+                $params['parent_id'], 
+                $params['path'] =  '/' . $params['reference'] . '/tags' 
+            );
+            
+            $str = '';
+            if (!empty($tags_html)){
+                $str.= lang::translate('tags_title') . MENU_SUB_SEPARATOR_SEC;
+                $str.= $tags_html;
+                $str.= "<br />\n";
+            }
+            echo $str;
         }
     }
 }
