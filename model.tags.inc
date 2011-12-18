@@ -423,7 +423,7 @@ EOD;
             }
             $extra['id'] = 'tags';
             self::initJs();
-            html::label('tags', lang::translate('tags'));
+            html::label('tags', lang::translate('tags_title'));
             html::text('tags', $value, $extra);
         }
         if ($params['action'] == 'view') {
