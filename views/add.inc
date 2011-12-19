@@ -18,4 +18,4 @@ html::submit('submit', lang::translate('tags_submit_add_another'));
 html::submit('submit', lang::translate('tags_submit_add'));
 html::formEnd();
 
-echo html::$formStr;
+echo html::getStr();
