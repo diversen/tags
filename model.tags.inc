@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * File containing main model class for module tags
+ * @package tags
+ */
+
+/**
  * This is the model file of the module tags.
  * It provides user interface for adding tags, and also some options for
  * including the tag module both as a event system and as submodule.  
@@ -13,7 +18,7 @@
 define ('TAGS_PER_PAGE', get_module_ini('tags_per_page'));
 
 /**
- * clsas for file for model tags. 
+ * class tags 
  * @package tags
  */
 class tags {
@@ -23,14 +28,24 @@ class tags {
      * @var array $errors
      */
     public static $errors = array();
+    
+    /**
+     * name of tags db table
+     * @var string $tagsTable
+     */
     public static $tagsTable = 'tags';
+    
+    /**
+     * name of tagsReferenceTable
+     * @var string $tagsReferenceTable
+     */
     public static $tagsReferenceTable = 'tags_reference';
 
     /**
      *
      * @param string $name name of the input
      * @param string $value value of the input. 
-     * @return string   the tag widget
+     * @return string  $str the tag widget
      */
     public static function defaultWidget ($name, $value, $options = array()){
         self::initJs();
@@ -46,9 +61,12 @@ EOD;
         return $str;
     }
     
+    /**
+     * method for loading css and javascript
+     */
     public static function initJs () {
-        template::setInlineCss(_COS_PATH . "/modules/tags/tags.css");
-        template::setInlineJs(_COS_PATH . "/modules/tags/tags.js");
+        template::setInlineCss(get_module_path('tags') . "/tags.css");
+        template::setInlineJs(get_module_path('tags') . "/tags.js");
     }
 
     /**
@@ -62,7 +80,7 @@ EOD;
 
     /**
      * method for add a tag to database table
-     * @return boolean  database result from insert
+     * @return boolean $res database result from insert
      */
     public static function add ($values = null){
         $db = new db();
@@ -80,12 +98,22 @@ EOD;
         return $res;
     }
 
+    /**
+     * get a single tag
+     * @param int $id
+     * @return array $row
+     */
     public static function getTagSingle ($id){
         $db = new db();
         $row = $db->selectOne(self::$tagsTable, 'id', $id);
         return $row;
     }
 
+    /**
+     * get a tag from title
+     * @param string $title
+     * @return array $row
+     */
     public static function getTagSingleFromTitle ($title){
         $db = new db();
         $row = $db->selectOne(self::$tagsTable, 'title', $title);
@@ -112,16 +140,29 @@ EOD;
         }
     }
 
+    /**
+     * updates a reference
+     * @param array $tags
+     * @param string $reference
+     * @param string $id 
+     */
     public static function updateReference ($tags, $reference, $id){
         self::deleteReference($reference, $id);
         self::addReference($tags, $reference, $id);
     }
 
+    /**
+     * deletes references to a tag
+     * @param string $reference
+     * @param int $id
+     * @return boolean $res database result from delete operation 
+     */
     public static function deleteReference ($reference, $id) {
         $db = new db();
         $search = array ('reference_id' => $id, 'reference_name' => $reference);
         return $db->delete(self::$tagsReferenceTable, null, $search);
     }
+    
     /**
      * returns tag references as a string
      * @param   string $reference (e.g. 'blog')
@@ -140,6 +181,12 @@ EOD;
         return $tags_str;
     }
 
+    /**
+     * gets all references from reference name and id
+     * @param string $reference
+     * @param int $id
+     * @return array $references  
+     */
     public static function getReferenceAsArray ($reference, $id) {
         $db = new db();
         $search = array ('reference_name' => $reference, 'reference_id' => $id);
@@ -147,6 +194,12 @@ EOD;
         return $references;
     }
 
+    /**
+     * get tags from references in database
+     * @param type $reference
+     * @param type $id
+     * @return type 
+     */
     public static function getReferenceAsTags ($reference, $id){
         $db = new db();
         $references = self::getReferenceAsArray($reference, $id);
@@ -203,6 +256,10 @@ EOD;
         $_POST['description'] = cos_htmlentities($_POST['description']);
     }
 
+    /**
+     * method for getting a count of all tag in database
+     * @return int $res number of tags
+     */
     public static function getNumTags (){
         $db = new db();
         return $db->getNumRows(self::$tagsTable);
@@ -262,6 +319,12 @@ EOD;
         return $db->getNumRows(self::$tagsReferenceTable, $search);
 
     }
+    
+    /*
+    public static function getAllTagReference ($reference, $reference_id) {
+        $b = new db();
+        $search = array ('reference_name' => $reference, 'reference_id' => $tag_id);
+    }*/
 
     public static function indexController (){
         include_once "pearPager.php";
@@ -364,11 +427,16 @@ EOD;
 
     }
 
-    public static function getAllTags (){
+    public static function getAllTags ($from = 0, $limit = 10, $order = 'title', $sort = 'ASC'){
         $db = new QBuilder();
-        $db->setSelect(self::$tagsTable);       
-        return $db->fetch();
+        $db->setSelect(self::$tagsTable);
+        $db->order($order, $sort);
+        $db->limit($from, $limit);       
+        $rows = $db->fetch();
+        return $rows;
     }
+    
+    
 
     public static function viewAdminLinks (&$val){
         echo html::createLink("/tags/edit/$val[id]", lang::translate('tags_admin_edit'));

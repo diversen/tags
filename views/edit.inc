@@ -14,4 +14,4 @@ html::textarea('description', null,
 html::submit('submit', lang::translate('tags_submit_update'));
 html::formEnd();
 
-echo html::$formStr;
+echo html::getStr();

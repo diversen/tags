@@ -6,7 +6,7 @@
 // If we wanted to update our SQL at a later point
 // we will add a fill to the 'up' dir where we place a
 // e.g. 1.02.sql file and update $_INSTALL['VERSION] as well.
-$_INSTALL['VERSION'] = 1.41;
+$_INSTALL['VERSION'] = 1.411;
 
 // This creates a main menu item in the database
 $_INSTALL['MAIN_MENU_ITEM'] = array (
