@@ -264,9 +264,20 @@ EOD;
         $db = new db();
         return $db->getNumRows(self::$tagsTable);
     }
+
+    
+    public static function getNumTagsFromReference ($reference){
+        $db = new dbQ();
+        $db->setSelect(self::$tagsReferenceTable, "COUNT(DISTINCT(tags_id)) as num_rows ");
+        $db->filter('reference_name =', $reference);
+        $row = $db->fetchSingle();
+        return $row['num_rows'];
+    }
     
 
-
+    /**
+     * method for displaying add controller
+     */
     public static function addController (){
         if (isset($_POST['submit'])){
             self::prepare();
@@ -289,43 +300,52 @@ EOD;
         include_view('tags', 'add');        
     }
 
+    /**
+     * get all references connected to a tag
+     * @param string $reference
+     * @param int $tag_id
+     * @param int $from
+     * @param int $limit
+     * @return array $rows 
+     */
     public static function getAllReferenceTag ($reference, $tag_id, $from = 0, $limit = 10){
-        $db = new db();
-        $sql = "SELECT reference_id FROM tags_reference WHERE ";
-        $sql.= "`reference_name` = " . db::$dbh->quote($reference) . " AND ";
-        $sql.= "`tags_id` = " . db::$dbh->quote($tag_id) ." ";
-        $sql.= "LIMIT " . $from . " , " .  $limit;
-        $rows = $db->selectQuery($sql);
+        $db = new dbQ();
+        $db->setSelect(self::$tagsReferenceTable, 'reference_id');
+        $db->filter('reference_name =', $reference);
+        $db->condition('AND');
+        $db->filter('tags_id =' , $tag_id);
+        $db->limit($from, $limit);
+        $rows = $db->fetch();
 
         $ary = array();
         foreach($rows as $key => $val) {
             $ary[] = $val['reference_id'];
         }
+
         return $ary;
     }
 
-    public static function getAllReferenceTagWithoutReference ($tag_id, $from = 0, $limit = 10){
-        $db = new db();
-        $sql = "SELECT * FROM tags_reference WHERE ";
-        $sql.= "`tags_id` = " . db::$dbh->quote($tag_id) ." ";
-        $sql.= "LIMIT " . $from . " , " .  $limit;
-        $rows = $db->selectQuery($sql);
-        return $rows;
-    }
 
+
+    /**
+     * get count of all references connected to a tag id and a reference
+     * @param string $reference
+     * @param int $tag_id
+     * @return int $num_rows 
+     */
     public static function getAllReferenceTagNumRows($reference, $tag_id){
-        $db = new db();
-        $search = array ('reference_name' => $reference, 'tags_id' => $tag_id);
-        return $db->getNumRows(self::$tagsReferenceTable, $search);
-
+        $db = new dbQ();
+        $db->setSelectNumRows(self::$tagsReferenceTable);
+        $db->filter('reference_name =', $reference);
+        $db->condition('AND');
+        $db->filter('tags_id =', $tag_id);
+        return $db->fetch();
     }
-    
-    /*
-    public static function getAllTagReference ($reference, $reference_id) {
-        $b = new db();
-        $search = array ('reference_name' => $reference, 'reference_id' => $tag_id);
-    }*/
 
+
+    /**
+     * display index of tags page
+     */
     public static function indexController (){
         include_once "pearPager.php";
 
@@ -338,6 +358,9 @@ EOD;
         $pager->pearPage();
     }
 
+    /**
+     * displays update controller
+     */
     public static function updateController (){     
         if (isset($_POST['submit'])){
             self::prepare('update');
@@ -357,6 +380,9 @@ EOD;
         include_view('tags', 'edit', html::entitiesEncode($row));
     }
 
+    /**
+     * displays delete controller
+     */
     public static function deleteController (){
         if (isset($_POST['submit'])){
             $res = self::delete();
@@ -369,6 +395,12 @@ EOD;
         include_view('tags', 'delete');
     }
 
+    /**
+     * method for cleaning tags and inserting them in database if they don't
+     * exists.  
+     * @param array $tags
+     * @return array $tags the cleaned tags
+     */
     public static function parse ($tags){
         $db = new db();
         $ary = explode(',', $tags);
@@ -400,12 +432,20 @@ EOD;
         return $ary;
     }
 
+    /**
+     * deletes a tag. Only used under tags module and not as a included module
+     * @return type 
+     */
     public static function delete (){
         $db = new db();
         return $db->delete(self::$tagsTable, 'id', self::getEntryId());
 
     }
 
+    /**
+     * method for updating a tag. 
+     * @return boolean $res result from update operation  
+     */
     public static function update (){
         $db = new db();
         $values = db::prepareToPost();
@@ -417,22 +457,58 @@ EOD;
         return $db->update(self::$tagsTable, $values, self::getEntryId());
     }
 
+    /**
+     * method for getting all main tags.
+     * @return array $tags all main tags 
+     */
     public static function getMainTags (){
         $db = new db();
         $rows = $db->selectAll(self::$tagsTable, null, array('is_main' => 1));
         return $rows;
     }
 
-    public static function getUserTags (){
 
-    }
-
+    /**
+     * gets all tags without using a reference
+     * @param int $from
+     * @param int $limit
+     * @param string $order field to sort by title is default. 
+     * @param type $sort ASC / DESC
+     * @return type 
+     */
     public static function getAllTags ($from = 0, $limit = 10, $order = 'title', $sort = 'ASC'){
         $db = new QBuilder();
         $db->setSelect(self::$tagsTable);
         $db->order($order, $sort);
         $db->limit($from, $limit);       
         $rows = $db->fetch();
+        return $rows;
+    } 
+
+ 
+    /**
+     * method for getting all tags from a reference 
+     * @param string $reference
+     * @param int $from
+     * @param int $limit
+     * @param string $order_by num_rows, tags.title
+     * @return array $tags the tags returned from db.  
+     */
+    public static function getAllTagsFromReference ($reference, $from = 0, $limit = 10, $order_by ='tags.title ASC') {
+        
+        $tags_table = self::$tagsTable;
+        $reference_table = self::$tagsReferenceTable;
+        $sql=<<<EOF
+SELECT tags.*, COUNT(tags_reference.tags_id) as num_rows 
+FROM tags 
+LEFT JOIN tags_reference ON tags.id=tags_reference.tags_id 
+WHERE tags_reference.reference_name='$reference' 
+GROUP BY tags.id 
+ORDER by $order_by LIMIT $from, $limit
+EOF;
+        $stmt = db::$dbh->prepare($sql);
+        $stmt->execute();
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $rows;
     }
     
