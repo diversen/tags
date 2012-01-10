@@ -252,8 +252,8 @@ EOD;
             }
         }
 
-        $_POST['title'] = cos_sanitize_url($_POST['title']);
-        $_POST['description'] = cos_htmlentities($_POST['description']);
+        $_POST['title'] = strings::sanitizeUrlRigid($_POST['title']);
+        $_POST['description'] = html::specialEncode($_POST['description']);
     }
 
     /**
