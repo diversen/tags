@@ -5,7 +5,7 @@ $_MODULE_MENU[] = array(
     'url' => '/tags/index',
 );
 
-$tags_allow = get_module_ini('tags_allow');
+$tags_allow = config::getModuleIni('tags_allow');
 
 $_MODULE_MENU[] = array(
     'title' => lang::translate('tags_menu_add'),

@@ -15,7 +15,7 @@
 /**
  * Tags per page
  */
-define ('TAGS_PER_PAGE', get_module_ini('tags_per_page'));
+define ('TAGS_PER_PAGE', config::getModuleIni('tags_per_page'));
 
 /**
  * class tags 
@@ -65,8 +65,8 @@ EOD;
      * method for loading css and javascript
      */
     public static function initJs () {
-        template::setInlineCss(get_module_path('tags') . "/tags.css");
-        template::setInlineJs(get_module_path('tags') . "/tags.js");
+        template::setInlineCss(config::getModulePath('tags') . "/tags.css");
+        template::setInlineJs(config::getModulePath('tags') . "/tags.js");
     }
 
     /**
@@ -350,7 +350,7 @@ EOD;
         include_once "pearPager.php";
 
         $num_tags = self::getNumTags();
-        $pager = new pearPager($num_tags, get_module_ini('tags_per_page'));
+        $pager = new pearPager($num_tags, config::getModuleIni('tags_per_page'));
 
         $db = new db();
         $rows = $db->selectAll(self::$tagsTable, null, null, $pager->from, TAGS_PER_PAGE, 'title');
@@ -419,7 +419,7 @@ EOD;
             if ($row){
                 $ary[$key] = $row['id'];
             } else {
-                if (get_module_ini('tags_auto_add')){
+                if (config::getModuleIni('tags_auto_add')){
                     $tag = array ();
                     $tag['title'] = $val;
                     self::add($tag);
