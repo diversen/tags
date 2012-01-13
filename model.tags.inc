@@ -297,7 +297,7 @@ EOD;
                 }
             }
         }       
-        include_view('tags', 'add');        
+        templateView::includeModuleView('tags', 'add');        
     }
 
     /**
@@ -354,7 +354,7 @@ EOD;
 
         $db = new db();
         $rows = $db->selectAll(self::$tagsTable, null, null, $pager->from, TAGS_PER_PAGE, 'title');
-        include_view('tags', 'view', $rows);
+        templateView::includeModuleView('tags', 'view', $rows);
         $pager->pearPage();
     }
 
@@ -377,7 +377,7 @@ EOD;
         }       
         $db = new db();
         $row = $db->selectOne(self::$tagsTable, 'id', self::getEntryId());
-        include_view('tags', 'edit', html::entitiesEncode($row));
+        templateView::includeModuleView('tags', 'edit', html::entitiesEncode($row));
     }
 
     /**
@@ -392,7 +392,7 @@ EOD;
                 header("Location: /tags/index");
             }
         }
-        include_view('tags', 'delete');
+        templateView::includeModuleView('tags', 'delete');
     }
 
     /**
