@@ -225,9 +225,10 @@ EOD;
         $num_tags = count($tags);
 
         foreach ($tags as $key => $val){
-            $url = $tag_page . "/$val[id]/" . $val['title'];
+            $url = strings::utf8Slug($tag_page . "/$val[id]" , $val['title']);
             $extra = array ('title' => $val['description']);
-            $str.=html::createLink($url, $val['title'], $extra);
+            
+            $str.=html::createLink(html::specialEncode($url), $val['title'], $extra);
             $num_tags--;
             if ($num_tags)$str.=MENU_SUB_SEPARATOR;
         }
