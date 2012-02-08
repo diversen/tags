@@ -92,7 +92,7 @@ EOD;
         }
         
         // create a clean tag. 
-        $values['title'] = html::sanitizeUrlSimple($values['title']);
+        $values['title'] = strings::sanitizeUrlSimple($values['title']);
         if (empty($values['title'])) return false;
         $res = $db->insert(self::$tagsTable, $values);
         return $res;
