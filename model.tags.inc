@@ -587,5 +587,22 @@ EOF;
             }
             echo $str;
         }
+        
+        if ($params['action'] == 'get') {
+            $params['parent_id'];
+            $tags_html = tags::getTagReferenceAsHTML(
+                $params['reference'], 
+                $params['parent_id'], 
+                $params['path'] =  '/' . $params['reference'] . '/tags' 
+            );
+            
+            $str = '';
+            if (!empty($tags_html)){
+                $str.= lang::translate('tags_title') . MENU_SUB_SEPARATOR_SEC;
+                $str.= $tags_html;
+                $str.= "<br />\n";
+            }
+            return $str;
+        }
     }
 }
