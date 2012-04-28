@@ -601,8 +601,11 @@ EOF;
                 $str.= lang::translate('tags_title') . MENU_SUB_SEPARATOR_SEC;
                 $str.= $tags_html;
                 $str.= "<br />\n";
+                return "<div class=\"tags\">$str</div>\n";
+            } else {
+                return '';
             }
-            return "<div id=\"tags\">$str</div>\n";
+            
         }
     }
 }
