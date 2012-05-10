@@ -585,7 +585,7 @@ EOF;
                 $str.= $tags_html;
                 $str.= "<br />\n";
             }
-            echo "<div id=\"tags\">$str</div>\n";
+            echo "<div class=\"tags\">$str</div>\n";
         }
         
         if ($params['action'] == 'get') {
