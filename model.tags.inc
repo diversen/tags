@@ -529,6 +529,7 @@ EOF;
     public static function events ($params) {
         if (isset($_POST['tags'])) {
             $tags = $_POST['tags'];
+            unset($_POST['tags']);
         }
         
         // should sanitize in above functions.
