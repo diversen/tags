@@ -605,8 +605,7 @@ EOF;
                 return "<div class=\"tags\">$str</div>\n";
             } else {
                 return '';
-            }
-            
+            }           
         }
     }
 }
