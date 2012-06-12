@@ -572,6 +572,7 @@ EOF;
             html::label('tags', lang::translate('tags_title'));
             html::text('tags', $value, $extra);
         }
+        
         if ($params['action'] == 'view') {
             $params['parent_id'];
             $tags_html = tags::getTagReferenceAsHTML(
@@ -590,7 +591,7 @@ EOF;
         }
         
         if ($params['action'] == 'get') {
-            $params['parent_id'];
+            //$params['parent_id'];
             $tags_html = tags::getTagReferenceAsHTML(
                 $params['reference'], 
                 $params['parent_id'], 
