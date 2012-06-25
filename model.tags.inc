@@ -267,12 +267,14 @@ EOD;
     }
 
     
+    /**
+     * return num rows with selected reference
+     * @param type $reference
+     * @return type 
+     */
     public static function getNumTagsFromReference ($reference){
-        $db = new dbQ();
-        $db->setSelect(self::$tagsReferenceTable, "COUNT(DISTINCT(tags_id)) as num_rows ");
-        $db->filter('reference_name =', $reference);
-        $row = $db->fetchSingle();
-        return $row['num_rows'];
+        return dbQ::setSelectNumRows(self::$tagsReferenceTable)->
+                filter('reference_name =', $reference)->fetch();
     }
     
 
