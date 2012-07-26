@@ -1,5 +1,7 @@
 ﻿<?php
 
+header("X-Robots-Tag: noindex");
+
 $db = new db();
 
 if(isset($_GET['term'])) {
