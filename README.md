@@ -6,7 +6,7 @@ For adding a tag input elements to a 'create' form use:
         config::getModuleIni('content_article_events'), 
         array(
             'action' => 'form',
-            'reference' => 'gallery'
+            'reference' => 'gallery'; // unique - e.g. module name
         )
     );
 
