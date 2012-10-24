@@ -478,11 +478,9 @@ EOD;
      * @return type 
      */
     public static function getAllTags ($from = 0, $limit = 10, $order = 'title', $sort = 'ASC'){
-        $db = new QBuilder();
-        $db->setSelect(self::$tagsTable);
-        $db->order($order, $sort);
-        $db->limit($from, $limit);       
-        $rows = $db->fetch();
+        $rows = dbQ::setSelect(self::$tagsTable)->
+            order($order, $sort)->
+            limit($from, $limit)->fetch();
         return $rows;
     } 
 
