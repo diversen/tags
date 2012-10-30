@@ -295,6 +295,7 @@ EOD;
                     session::setActionMessage(
                         lang::translate('tags_added_tag_action_message'));
                     header("Location: $redirect");
+                    exit;
                 }
             }
         }       
@@ -373,6 +374,7 @@ EOD;
                     session::setActionMessage(
                         lang::translate('tags_updated_tag_action_message'));
                     header("Location: /tags/index");
+                    exit;
                 }
             }
         }       
@@ -391,6 +393,7 @@ EOD;
                 session::setActionMessage(
                     lang::translate('tags_deleted_tag_action_message'));
                 header("Location: /tags/index");
+                exit;
             }
         }
         templateView::includeModuleView('tags', 'delete');
