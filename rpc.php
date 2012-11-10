@@ -12,9 +12,14 @@ if(isset($_GET['term'])) {
     }
 
     if(strlen($queryString) > $at_least) {
-        $query = "SELECT id, title as label FROM tags WHERE title LIKE ". db::$dbh->quote("" . $queryString . "%");
-        error_log($query);
-        $rows = $db->selectQuery($query);
+        dbQ::setSelect('tags', 'id, title as label')->filter('title LIKE ', "$queryString%");
+        
+        $per_page = config::getModuleIni('tags_per_page');
+        if ($per_page) {
+            dbQ::limit(0,  $per_page);
+        }
+        
+        $rows = dbQ::fetch();
         $json = json_encode($rows);
         echo $json;
     }
