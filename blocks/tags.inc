@@ -1,7 +1,7 @@
 <?php
 
 
-moduleLoader::includeModule ('tags');
+moduleloader::includeModule ('tags');
 
 
 function block_tags (){
