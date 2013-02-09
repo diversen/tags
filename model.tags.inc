@@ -283,7 +283,7 @@ EOD;
         if (isset($_POST['submit'])){
             self::prepare();
             if (!empty(self::$errors)){
-                view_form_errors(self::$errors);
+                html::errors(self::$errors);
             } else {
                 $res = self::add();
                 if ($res){
@@ -367,7 +367,7 @@ EOD;
         if (isset($_POST['submit'])){
             self::prepare('update');
             if (!empty(self::$errors)){
-                view_form_errors(self::$errors);
+                html::errors(self::$errors);
             } else {
                 $res = self::update();
                 if ($res){           
