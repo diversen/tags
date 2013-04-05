@@ -442,6 +442,7 @@ EOD;
      */
     public static function delete (){
         $db = new db();
+        $db->delete('tags_reference', 'tags_id', self::getEntryId() );
         return $db->delete(self::$tagsTable, 'id', self::getEntryId());
 
     }
