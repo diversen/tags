@@ -1,3 +1,5 @@
+### Tags
+
 tags module can be used in other modules with the event system. 
 For adding a tag input elements to a 'create' form use: 
 
