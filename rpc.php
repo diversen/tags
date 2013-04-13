@@ -12,14 +12,14 @@ if(isset($_GET['term'])) {
     }
 
     if(strlen($queryString) > $at_least) {
-        dbQ::setSelect('tags', 'id, title as label')->filter('title LIKE ', "$queryString%");
+        db_q::setSelect('tags', 'id, title as label')->filter('title LIKE ', "$queryString%");
         
         $per_page = config::getModuleIni('tags_per_page');
         if ($per_page) {
-            dbQ::limit(0,  $per_page);
+            db_q::limit(0,  $per_page);
         }
         
-        $rows = dbQ::fetch();
+        $rows = db_q::fetch();
         $json = json_encode($rows);
         echo $json;
     }

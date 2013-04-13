@@ -268,7 +268,7 @@ EOD;
 
     
     public static function getNumTagsFromReference ($reference){
-        return dbQ::setSelectNumRows(
+        return db_q::setSelectNumRows(
                 self::$tagsReferenceTable)->
                 filter('reference_name =', $reference)
                 ->fetch();
@@ -311,7 +311,7 @@ EOD;
      * @return array $rows 
      */
     public static function getAllReferenceTag ($reference, $tag_id, $from = 0, $limit = 10){
-        $db = new dbQ();
+        $db = new db_q();
         $db->setSelect(self::$tagsReferenceTable, 'reference_id');
         $db->filter('reference_name =', $reference);
         $db->condition('AND');
@@ -336,7 +336,7 @@ EOD;
      * @return int $num_rows 
      */
     public static function getAllReferenceTagNumRows($reference, $tag_id){
-        $db = new dbQ();
+        $db = new db_q();
         $db->setSelectNumRows(self::$tagsReferenceTable);
         $db->filter('reference_name =', $reference);
         $db->condition('AND');
@@ -482,7 +482,7 @@ EOD;
      * @return type 
      */
     public static function getAllTags ($from = 0, $limit = 10, $order = 'title', $sort = 'ASC'){
-        $rows = dbQ::setSelect(self::$tagsTable)->
+        $rows = db_q::setSelect(self::$tagsTable)->
             order($order, $sort)->
             limit($from, $limit)->fetch();
         return $rows;
