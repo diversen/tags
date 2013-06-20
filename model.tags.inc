@@ -320,7 +320,7 @@ EOD;
         $rows = $db->fetch();
 
         $ary = array();
-        foreach($rows as $key => $val) {
+        foreach($rows as $val) {
             $ary[] = $val['reference_id'];
         }
 
@@ -349,7 +349,6 @@ EOD;
      * display index of tags page
      */
     public static function indexController (){
-        include_once "pearPager.php";
 
         $num_tags = self::getNumTags();
         $pager = new pearPager($num_tags, config::getModuleIni('tags_per_page'));
