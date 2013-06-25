@@ -134,7 +134,7 @@ EOD;
         $values['reference_name'] = $reference;
         $values['reference_id'] = $id;
 
-        foreach ($tags_ary as $key => $val){
+        foreach ($tags_ary as $val){
             $values['tags_id'] = $val;
             $db->insert(self::$tagsReferenceTable, $values);
         }
@@ -174,7 +174,7 @@ EOD;
         $tags = self::getReferenceAsArray($reference, $id);
 
         $tags_str = '';
-        foreach ($tags as $key => $val){
+        foreach ($tags as  $val){
             $tag = $db->selectOne(self::$tagsTable, 'id', $val['tags_id']);
             $tags_str.= $tag['title'] . ", ";
         }
@@ -204,7 +204,7 @@ EOD;
         $db = new db();
         $references = self::getReferenceAsArray($reference, $id);
         $tags = array();
-        foreach ($references as $key => $val){
+        foreach ($references as $val){
             $tags[] = $db->selectOne(self::$tagsTable, 'id', $val['tags_id']);
         }
         return $tags;
