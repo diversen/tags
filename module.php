@@ -523,7 +523,7 @@ EOF;
     }
     
     public static function eventForm ($label) {
-        html::label('tags', lang::translate('blog_tags'));
+        html::label('tags', lang::translate('tags_label'));
         html::widget('tags', 'defaultWidget', 'tags');
     }
     
