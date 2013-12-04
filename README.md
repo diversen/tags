@@ -1,5 +1,66 @@
 ### Tags
 
+Tag module to tag any other entry like blog, and article, or question. 
+
+configuration: 
+
+    ; admin setting. How many tags to display on a page
+    tags_per_page = 10
+    ; allow anybody to add new tags
+    tags_auto_add = 1
+    ; who can add, edit, delete tags
+    tags_allow_edit = "admin"
+    ; min char for a tag 
+    tags_min_chars = 0
+
+### Manual usage:
+
+include the module: 
+
+    moduleloader::includeModule('tags');
+    $t = new tags();
+
+Add a tag. 
+
+It works with a reference and an id (unique), e.g. the 'reference'
+could be 'blog' and the a blog entry id could be the 'id'
+
+First it parses the tags, if ini setting tag_auto_add is 1 the tags will be
+added to the `tags` mysql table. Then the tags will be added to the `tags_reference`
+table (tags_id, reference_id, reference_name)
+
+    $res = $t->addReference(
+                $tags, 
+                $reference, 
+                $id
+    );
+
+
+Update the tags and tags_reference: 
+
+    $res = $t->updateReference(
+                $tags, 
+                $reference, 
+                $id
+            ); 
+
+Delete tags references:
+
+    $res = $t->deleteReference(
+                reference, 
+                $id);
+        }
+
+Jquery auto complete: 
+
+    $t = new tags();
+    // include jquery script and a bit of css (which can be overridden in templates)
+    $t->initJs();
+
+Then just create an input with id `tags`
+    
+### As a inline module
+
 tags module can be used in other modules with the event system. 
 For adding a tag input elements to a 'create' form use: 
 

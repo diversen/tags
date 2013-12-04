@@ -556,6 +556,7 @@ EOF;
                 $params['parent_id']);
             
         }
+        
         if ($params['action'] == 'form') {
             if (isset($params['parent_id'])  && isset($params['reference'])) {
                 $value = tags::getReferenceAsString($params['reference'], $params['parent_id']);
