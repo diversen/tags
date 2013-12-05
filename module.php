@@ -612,3 +612,5 @@ EOF;
         }
     }
 }
+
+class tags_module extends tags {}
