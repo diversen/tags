@@ -126,13 +126,14 @@ EOD;
      * @param string $reference (e.g. 'blog'
      * @param int    $id (e.g. 27, a unique id for blog a blog entry)
      */
-    public static function addReference($tags, $reference, $id) {
+    public static function addReference($tags, $reference, $id, $published =1) {
         $tags_ary = self::parse($tags);
 
         $db = new db();
         $values = array();
         $values['reference_name'] = $reference;
         $values['reference_id'] = $id;
+        $values['published'] = $published;
 
         foreach ($tags_ary as $val){
             $values['tags_id'] = $val;
@@ -146,9 +147,9 @@ EOD;
      * @param string $reference
      * @param string $id 
      */
-    public static function updateReference ($tags, $reference, $id){
+    public static function updateReference ($tags, $reference, $id, $published = 1){
         self::deleteReference($reference, $id);
-        self::addReference($tags, $reference, $id);
+        self::addReference($tags, $reference, $id, $published);
     }
 
     /**
@@ -316,6 +317,8 @@ EOD;
         $db->filter('reference_name =', $reference);
         $db->condition('AND');
         $db->filter('tags_id =' , $tag_id);
+        $db->condition('AND');
+        $db->filter('published =' , 1);
         $db->limit($from, $limit);
         $rows = $db->fetch();
 
@@ -341,6 +344,8 @@ EOD;
         $db->filter('reference_name =', $reference);
         $db->condition('AND');
         $db->filter('tags_id =', $tag_id);
+        $db->condition('AND');
+        $db->filter('published =', 1);
         return $db->fetch();
     }
 
@@ -349,10 +354,8 @@ EOD;
      * display index of tags page
      */
     public static function indexController (){
-
         $num_tags = self::getNumTags();
         $pager = new pearPager($num_tags, config::getModuleIni('tags_per_page'));
-
         $db = new db();
         $rows = $db->selectAll(self::$tagsTable, null, null, $pager->from, TAGS_PER_PAGE, 'title');
         view::includeModuleView('tags', 'view', $rows);
@@ -487,32 +490,6 @@ EOD;
         return $rows;
     } 
 
- 
-    /**
-     * method for getting all tags from a reference 
-     * @param string $reference
-     * @param int $from
-     * @param int $limit
-     * @param string $order_by num_rows, tags.title
-     * @return array $tags the tags returned from db.  
-     */
-    public static function getAllTagsFromReference ($reference, $from = 0, $limit = 10, $order_by ='tags.title ASC') {
-        
-        $tags_table = self::$tagsTable;
-        $reference_table = self::$tagsReferenceTable;
-        $sql=<<<EOF
-SELECT tags.*, COUNT(tags_reference.tags_id) as num_rows 
-FROM tags 
-LEFT JOIN tags_reference ON tags.id=tags_reference.tags_id 
-WHERE tags_reference.reference_name='$reference' 
-GROUP BY tags.id 
-ORDER by $order_by LIMIT $from, $limit
-EOF;
-        $stmt = db::$dbh->prepare($sql);
-        $stmt->execute();
-        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $rows;
-    }
     
     
 
@@ -538,7 +515,9 @@ EOF;
             $res = tags::updateReference(
                 $tags, 
                 $params['reference'], 
-                $params['parent_id']
+                $params['parent_id'],
+                $params['published'],
+                $params['published']
             );
         }
         
@@ -546,7 +525,8 @@ EOF;
             $res = tags::addReference(
                 $tags, 
                 $params['reference'], 
-                $params['parent_id']
+                $params['parent_id'],
+                $params['published']
             );
         }
         
