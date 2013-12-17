@@ -551,7 +551,7 @@ EOD;
             }
             $extra['id'] = 'tags';
             self::initJs();
-            html::label('tags', lang::translate('tags_title'));
+            html::label('tags', lang::translate('Tags'));
             html::text('tags', $value, $extra);
         }
         
@@ -565,7 +565,7 @@ EOD;
             
             $str = '';
             if (!empty($tags_html)){
-                $str.= lang::translate('tags_title') . MENU_SUB_SEPARATOR_SEC;
+                $str.= lang::translate('Tags') . MENU_SUB_SEPARATOR_SEC;
                 $str.= $tags_html;
                 $str.= "<br />\n";
             }
@@ -582,7 +582,7 @@ EOD;
             
             $str = '';
             if (!empty($tags_html)){
-                $str.= lang::translate('tags_title') . MENU_SUB_SEPARATOR_SEC;
+                $str.= lang::translate('Tags') . MENU_SUB_SEPARATOR_SEC;
                 $str.= $tags_html;
                 $str.= "<br />\n";
                 return "<div class=\"tags\">$str</div>\n";

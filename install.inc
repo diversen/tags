@@ -10,7 +10,7 @@ $_INSTALL['VERSION'] = 2.513;
 
 // This creates a main menu item in the database
 $_INSTALL['MAIN_MENU_ITEM'] = array (
-    'title' => 'tags_title',
+    'title' => lang::translate('tags_title', null, array ('no_translate' => true)),
     'url' => '/tags/index',
     'module_name' => 'tags',
     'parent' => 0,
