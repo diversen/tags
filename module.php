@@ -473,6 +473,34 @@ EOD;
         $rows = $db->selectAll(self::$tagsTable, null, array('is_main' => 1));
         return $rows;
     }
+    
+        /**
+     * method for getting all tags from a reference 
+     * @param string $reference
+     * @param int $from
+     * @param int $limit
+     * @param string $order_by num_rows, tags.title
+     * @return array $tags the tags returned from db.  
+     */
+    
+    public static function getAllTagsFromReference ($reference, $from = 0, $limit = 10, $order_by ='tags.title ASC') {
+        
+        $tags_table = self::$tagsTable;
+        $reference_table = self::$tagsReferenceTable;
+        $sql=<<<EOF
+SELECT tags.*, COUNT(tags_reference.tags_id) as num_rows 
+FROM tags 
+LEFT JOIN tags_reference ON tags.id=tags_reference.tags_id 
+WHERE tags_reference.reference_name='$reference' 
+GROUP BY tags.id 
+ORDER by $order_by LIMIT $from, $limit
+EOF;
+        $stmt = db::$dbh->prepare($sql);
+        $stmt->execute();
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $rows;
+    }
+    
 
 
     /**
@@ -516,7 +544,6 @@ EOD;
                 $tags, 
                 $params['reference'], 
                 $params['parent_id'],
-                $params['published'],
                 $params['published']
             );
         }
