@@ -23,6 +23,7 @@ class tags_api {
     public function deleteAction () {
         if (session::isSuper()) {
             $this->deleteTagsAndReferences();
+            echo lang::translate('Tags has been deleted!');
         } else {
             moduleloader::setStatus(403);
             error_module::$message = lang::translate('Not sufficient privileges. Super user is required');
