@@ -12,12 +12,22 @@ class tags_api {
         
     }
     
-    public function deleteTagsAndReferences () {
-        $ary = $this->getTags();
+    /**
+     * delete tags and tags references from an array of tags
+     * @param array $ary
+     */
+    public function deleteTagsAndReferences ($ary = null) {
+        
+        if (!$ary) {
+            $ary = $this->getTags();
+        }
+        
         foreach ($ary as $val) {
             db_q::delete('tags_reference')->filter('tags_id =', $val)->exec();
             db_q::delete('tags')->filter('id =', $val)->exec();
         }
+        
+        return true;
     }
     
     public function deleteAction () {
@@ -31,3 +41,5 @@ class tags_api {
         }
     }
 }
+
+class tags_api_module extends tags_api {}

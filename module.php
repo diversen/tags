@@ -210,6 +210,21 @@ EOD;
         }
         return $tags;
     }
+    
+    /**
+     * get tags from references in database
+     * @param type $reference
+     * @param type $id
+     * @return type 
+     */
+    public static function getTagsAryFromRows ($tags){
+
+        $ary = array();
+        foreach ($tags as $val){
+            $ary[] = $val['id'];
+        }
+        return $ary;
+    }
 
     /**
      * returns a html string with all tags
@@ -617,6 +632,34 @@ EOF;
                 return '';
             }           
         }
+    }
+    
+    /**
+     * 
+     * @param string $reference, e.g. blog
+     * @param int $id, the id in question
+     * @param type $action, e.g. delete
+     * @return string $url an api url
+     */
+    public function getApiURL ($reference, $id, $action = 'delete') {
+        $tags = $this->getReferenceAsTags($reference, $id);
+        
+        $i = count($tags);
+        $str = '';
+        if ($i > 0) {
+            foreach ($tags as $val) {
+                $i--;
+                $str.= "$val[id]";
+                if ($i){
+                    $str.='-';
+                }
+            }
+        }
+        
+        $site_url = config::getSchemeWithServerName();
+        
+        // generate tag delete url
+        return $site_url . "/tags/api/$action/1/$str";
     }
 }
 
