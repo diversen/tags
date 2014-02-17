@@ -20,6 +20,7 @@ class tags_api {
         
         if (!$ary) {
             $ary = $this->getTags();
+            
         }
         
         foreach ($ary as $val) {
