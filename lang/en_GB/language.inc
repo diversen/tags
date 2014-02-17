@@ -23,6 +23,11 @@ $_COS_LANG_MODULE['tags_submit_add'] = 'Add';
 $_COS_LANG_MODULE['tags_delete_tags_legend'] = 'Delete Tag';
 $_COS_LANG_MODULE['tags_submit_delete'] = 'Delete';
 
+// Translation of file /modules/tags/api/module.php
+
+$_COS_LANG_MODULE['Tags has been deleted!'] = 'Tags has been deleted!';
+$_COS_LANG_MODULE['Not sufficient privileges. Super user is required'] = 'Not sufficient privileges. Super user is required';
+
 // Translation of file /modules/tags/module.php
 
 $_COS_LANG_MODULE['tags_error_no_title'] = 'No title';
