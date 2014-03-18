@@ -159,9 +159,11 @@ EOD;
      * @return boolean $res database result from delete operation 
      */
     public static function deleteReference ($reference, $id) {
-        $db = new db();
-        $search = array ('reference_id' => $id, 'reference_name' => $reference);
-        return $db->delete(self::$tagsReferenceTable, null, $search);
+        return db_q::delete(self::$tagsReferenceTable)->
+                filter('reference_id =', $id)->
+                condition('AND')->
+                filter('reference_name =', $reference)->
+                exec();
     }
     
     /**
