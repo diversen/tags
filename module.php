@@ -335,14 +335,13 @@ EOD;
             'reference_name =' => $reference, 
             'tags_id =' => $tag_id, 
             'published =' =>  1);
+        
         $rows = db_q::select(self::$tagsReferenceTable, 'reference_id')->
                 filterArray($search)->
-                order('reference_id', 'DESC')->
+                order('id', 'DESC')->
                 limit($from, $limit)->
                 fetch();
         
-        
-
         $ary = array();
         foreach($rows as $val) {
             $ary[] = $val['reference_id'];
