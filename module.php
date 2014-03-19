@@ -329,15 +329,19 @@ EOD;
      * @return array $rows 
      */
     public static function getAllReferenceTag ($reference, $tag_id, $from = 0, $limit = 10){
-        $db = new db_q();
-        $db->setSelect(self::$tagsReferenceTable, 'reference_id');
-        $db->filter('reference_name =', $reference);
-        $db->condition('AND');
-        $db->filter('tags_id =' , $tag_id);
-        $db->condition('AND');
-        $db->filter('published =' , 1);
-        $db->limit($from, $limit);
-        $rows = $db->fetch();
+        //$db = new db_q();
+        
+        $search = array (
+            'reference_name =' => $reference, 
+            'tags_id =' => $tag_id, 
+            'published =' =>  1);
+        $rows = db_q::select(self::$tagsReferenceTable, 'reference_id')->
+                filterArray($search)->
+                order('reference_id', 'DESC')->
+                limit($from, $limit)->
+                fetch();
+        
+        
 
         $ary = array();
         foreach($rows as $val) {
