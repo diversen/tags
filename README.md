@@ -134,3 +134,4 @@ Displaying tags is done with 'view' which will echo the tags.
     );      
 
 Currently no method to just return the html.
+
