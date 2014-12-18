@@ -1,5 +1,6 @@
 <?php
 
+use diversen\pagination as pearPager;
 /**
  * File containing main model class for module tags
  * @package tags
