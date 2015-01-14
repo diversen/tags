@@ -360,6 +360,16 @@ EOD;
      * @return int $num_rows 
      */
     public static function getAllReferenceTagNumRows($reference, $tag_id){
+        
+        return db_q::numRows(self::$tagsReferenceTable)->
+                filter('reference_name =', $reference)->
+                condition('AND')->
+                filter('tags_id =', $tag_id)->
+                condition('AND')->
+                filter('published =', 1)->
+                fetch();
+                
+        /*
         $db = new db_q();
         $db->setSelectNumRows(self::$tagsReferenceTable);
         $db->filter('reference_name =', $reference);
@@ -368,6 +378,8 @@ EOD;
         $db->condition('AND');
         $db->filter('published =', 1);
         return $db->fetch();
+         * 
+         */
     }
 
 
