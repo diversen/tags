@@ -24,8 +24,8 @@ class tags_api {
         }
         
         foreach ($ary as $val) {
-            db_q::delete('tags_reference')->filter('tags_id =', $val)->exec();
-            db_q::delete('tags')->filter('id =', $val)->exec();
+            q::delete('tags_reference')->filter('tags_id =', $val)->exec();
+            q::delete('tags')->filter('id =', $val)->exec();
         }
         
         return true;

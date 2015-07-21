@@ -160,7 +160,7 @@ EOD;
      * @return boolean $res database result from delete operation 
      */
     public static function deleteReference ($reference, $id) {
-        return db_q::delete(self::$tagsReferenceTable)->
+        return q::delete(self::$tagsReferenceTable)->
                 filter('reference_id =', $id)->
                 condition('AND')->
                 filter('reference_name =', $reference)->
@@ -287,7 +287,7 @@ EOD;
 
     
     public static function getNumTagsFromReference ($reference){
-        return db_q::setSelectNumRows(
+        return q::setSelectNumRows(
                 self::$tagsReferenceTable)->
                 filter('reference_name =', $reference)
                 ->fetch();
@@ -337,7 +337,7 @@ EOD;
             'tags_id =' => $tag_id, 
             'published =' =>  1);
         
-        $rows = db_q::select(self::$tagsReferenceTable, 'reference_id')->
+        $rows = q::select(self::$tagsReferenceTable, 'reference_id')->
                 filterArray($search)->
                 order('id', 'DESC')->
                 limit($from, $limit)->
@@ -361,7 +361,7 @@ EOD;
      */
     public static function getAllReferenceTagNumRows($reference, $tag_id){
         
-        return db_q::numRows(self::$tagsReferenceTable)->
+        return q::numRows(self::$tagsReferenceTable)->
                 filter('reference_name =', $reference)->
                 condition('AND')->
                 filter('tags_id =', $tag_id)->
@@ -545,7 +545,7 @@ EOF;
      * @return type 
      */
     public static function getAllTags ($from = 0, $limit = 10, $order = 'title', $sort = 'ASC'){
-        $rows = db_q::setSelect(self::$tagsTable)->
+        $rows = q::setSelect(self::$tagsTable)->
             order($order, $sort)->
             limit($from, $limit)->fetch();
         return $rows;
