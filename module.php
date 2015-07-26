@@ -16,7 +16,7 @@ use diversen\pagination as pearPager;
 /**
  * Tags per page
  */
-define ('TAGS_PER_PAGE', config::getModuleIni('tags_per_page'));
+define ('TAGS_PER_PAGE', conf::getModuleIni('tags_per_page'));
 
 /**
  * class tags 
@@ -66,8 +66,8 @@ EOD;
      * method for loading css and javascript
      */
     public static function initJs () {
-        template::setInlineCss(config::getModulePath('tags') . "/tags.css");
-        template::setInlineJs(config::getModulePath('tags') . "/tags.js");
+        template::setInlineCss(conf::getModulePath('tags') . "/tags.css");
+        template::setInlineJs(conf::getModulePath('tags') . "/tags.js");
     }
 
     /**
@@ -388,7 +388,7 @@ EOD;
      */
     public static function indexController (){
         $num_tags = self::getNumTags();
-        $pager = new pearPager($num_tags, config::getModuleIni('tags_per_page'));
+        $pager = new pearPager($num_tags, conf::getModuleIni('tags_per_page'));
         $db = new db();
         $rows = $db->selectAll(self::$tagsTable, null, null, $pager->from, TAGS_PER_PAGE, 'title');
         view::includeModuleView('tags', 'view', $rows);
@@ -458,7 +458,7 @@ EOD;
             if ($row){
                 $ary[$key] = $row['id'];
             } else {
-                if (config::getModuleIni('tags_auto_add')){
+                if (conf::getModuleIni('tags_auto_add')){
                     $tag = array ();
                     $tag['title'] = $val;
                     self::add($tag);
@@ -674,7 +674,7 @@ EOF;
             }
         }
         
-        $site_url = config::getSchemeWithServerName();
+        $site_url = conf::getSchemeWithServerName();
         
         // generate tag delete url
         return $site_url . "/tags/api/$action/1/$str";
