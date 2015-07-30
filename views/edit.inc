@@ -1,5 +1,8 @@
 <?php
 
+use diversen\html;
+use diversen\lang;
+
 html::$autoLoadTrigger = 'submit';
 html::init($vars);
 html::formStart('blog_form');
