@@ -1,5 +1,6 @@
 <?php
 
+use diversen\lang;
 // This sets the version of the module.
 // Note that the version follows sql.
 //
