@@ -1,5 +1,11 @@
 <?php
 
+use diversen\db\q;
+use diversen\lang;
+use diversen\moduleloader;
+use diversen\session;
+use diversen\uri;
+
 class tags_api {
     
     /**

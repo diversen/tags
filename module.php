@@ -1,15 +1,15 @@
 <?php
 
-use diversen\pagination;
-use diversen\db\q;
 use diversen\conf;
+use diversen\db;
+use diversen\db\q;
 use diversen\html;
 use diversen\lang;
-use diversen\db;
+use diversen\pagination;
 use diversen\session;
 use diversen\strings;
-use diversen\uri;
 use diversen\template;
+use diversen\uri;
 use diversen\view;
 
 /**

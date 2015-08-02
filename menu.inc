@@ -1,7 +1,7 @@
 <?php
 
-use diversen\lang;
 use diversen\conf;
+use diversen\lang;
 
 $_MODULE_MENU[] = array(
     'title' => lang::translate('tags_menu_list'),

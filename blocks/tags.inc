@@ -1,5 +1,8 @@
 <?php
 
+use diversen\html;
+use diversen\lang;
+use diversen\moduleloader;
 
 moduleloader::includeModule ('tags');
 
