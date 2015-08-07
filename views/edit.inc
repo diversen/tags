@@ -6,15 +6,15 @@ use diversen\lang;
 html::$autoLoadTrigger = 'submit';
 html::init($vars);
 html::formStart('blog_form');
-html::legend(lang::translate('tags_add_tags_legend'));
-html::label('title', lang::translate('tags_label_title'));
+html::legend(lang::translate('Edit tag'));
+html::label('title', lang::translate('Title'));
 html::text('title');
-html::label('is_main', lang::translate('tags_is_main'));
+html::label('is_main', lang::translate('Is a main tag'));
 html::checkbox('is_main');
-html::label('description', lang::translate('tags_label_description'));
+html::label('description', lang::translate('Description'));
 html::textarea('description', null,
         array ('rows' => 5));
-html::submit('submit', lang::translate('tags_submit_update'));
+html::submit('submit', lang::translate('Update'));
 html::formEnd();
 
 echo html::getStr();

@@ -268,17 +268,17 @@ EOD;
     public static function prepare($action = 'insert') {
         $_POST['title'] = trim($_POST['title']);
         if (empty($_POST['title'])) {
-            self::$errors['title'] = lang::translate('tags_error_no_title');
+            self::$errors['title'] = lang::translate('No title');
         }
 
         $row = self::getTagSingleFromTitle($_POST['title']);
         if (!empty($row)) {
             if ($action == 'insert') {
-                self::$errors['title'] = 'tags_error_exists';
+                self::$errors['title'] = 'Tag exists';
             } else if ($action == 'update') {
                 $id = self::getEntryId();
                 if ($id != $row['id']) {
-                    self::$errors['title'] = 'tags_error_exists';
+                    self::$errors['title'] = 'Tag exists';
                 }
             }
         }
@@ -314,13 +314,13 @@ EOD;
             } else {
                 $res = self::add();
                 if ($res) {
-                    if ($_POST['submit'] == lang::translate('tags_submit_add_another')) {
+                    if ($_POST['submit'] == lang::translate('Add another')) {
                         $redirect = "/tags/add";
                     } else {
                         $redirect = "/tags/index";
                     }
                     session::setActionMessage(
-                            lang::translate('tags_added_tag_action_message'));
+                            lang::translate('Tag has been added'));
                     header("Location: $redirect");
                     exit;
                 }
@@ -458,7 +458,7 @@ EOD;
                 $res = self::update();
                 if ($res) {
                     session::setActionMessage(
-                            lang::translate('tags_updated_tag_action_message'));
+                            lang::translate('Tag has been updated'));
                     header("Location: /tags/index");
                     exit;
                 }
@@ -477,7 +477,7 @@ EOD;
             $res = self::delete();
             if ($res) {
                 session::setActionMessage(
-                        lang::translate('tags_deleted_tag_action_message'));
+                        lang::translate('Tag has been deleted'));
                 header("Location: /tags/index");
                 exit;
             }
@@ -598,13 +598,13 @@ EOF;
     }
 
     public static function viewAdminLinks(&$val) {
-        echo html::createLink("/tags/edit/$val[id]", lang::translate('tags_admin_edit'));
+        echo html::createLink("/tags/edit/$val[id]", lang::translate('Edit'));
         echo MENU_SUB_SEPARATOR;
-        echo html::createLink("/tags/delete/$val[id]", lang::translate('tags_admin_delete'));
+        echo html::createLink("/tags/delete/$val[id]", lang::translate('Delete'));
     }
 
     public static function eventForm($label) {
-        html::label('tags', lang::translate('tags_label'));
+        html::label('tags', lang::translate('Tags'));
         html::widget('tags', 'defaultWidget', 'tags');
     }
 
