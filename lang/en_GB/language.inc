@@ -3,14 +3,13 @@
 
 // Translation of file /modules/tags/module.php
 
-$_COS_LANG_MODULE['tags_error_no_title'] = 'tags_error_no_title';
+$_COS_LANG_MODULE['No title'] = 'No title';
 $_COS_LANG_MODULE['Add another'] = 'Add another';
 $_COS_LANG_MODULE['Tag has been added'] = 'Tag has been added';
 $_COS_LANG_MODULE['Tag has been updated'] = 'Tag has been updated';
 $_COS_LANG_MODULE['Tag has been deleted'] = 'Tag has been deleted';
 $_COS_LANG_MODULE['Edit'] = 'Edit';
 $_COS_LANG_MODULE['Delete'] = 'Delete';
-$_COS_LANG_MODULE['tags_label'] = 'tags_label';
 $_COS_LANG_MODULE['Tags'] = 'Tags';
 
 // Translation of file /modules/tags/api/module.php
@@ -37,4 +36,4 @@ $_COS_LANG_MODULE['Update'] = 'Update';
 
 // Translation of file /modules/tags/blocks/tags.inc
 
-$_COS_LANG_MODULE['tags_main'] = 'tags_main';
+$_COS_LANG_MODULE['Main tags'] = 'Main tags';

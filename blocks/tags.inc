@@ -9,7 +9,7 @@ moduleloader::includeModule ('tags');
 
 function block_tags (){
     $str = '';
-    $str.= "<h3>" . lang::translate('tags_main') . "</h3>\n";
+    $str.= "<h3>" . lang::translate('Main tags') . "</h3>\n";
     $str.= "<div class =\"block\">\n";
     $str.= "<ul>\n";
     $elements = tags::getMainTags();

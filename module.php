@@ -268,17 +268,17 @@ EOD;
     public static function prepare($action = 'insert') {
         $_POST['title'] = trim($_POST['title']);
         if (empty($_POST['title'])) {
-            self::$errors['title'] = lang::translate('tags_error_no_title');
+            self::$errors['title'] = lang::translate('No title');
         }
 
         $row = self::getTagSingleFromTitle($_POST['title']);
         if (!empty($row)) {
             if ($action == 'insert') {
-                self::$errors['title'] = 'tags_error_exists';
+                self::$errors['title'] = 'Tag exists';
             } else if ($action == 'update') {
                 $id = self::getEntryId();
                 if ($id != $row['id']) {
-                    self::$errors['title'] = 'tags_error_exists';
+                    self::$errors['title'] = 'Tag exists';
                 }
             }
         }
@@ -615,7 +615,7 @@ EOF;
     }
 
     public static function eventForm($label) {
-        html::label('tags', lang::translate('tags_label'));
+        html::label('tags', lang::translate('Tags'));
         html::widget('tags', 'defaultWidget', 'tags');
     }
 
