@@ -1,22 +1,22 @@
 <?php
 
 $_COS_LANG_MODULE['tags_error_no_title'] = 'Ei otsikkoa';
-$_COS_LANG_MODULE['tags_submit_add_another'] = 'Lisää toinen tag';
-$_COS_LANG_MODULE['tags_added_tag_action_message'] = 'Tag lisätään';
-$_COS_LANG_MODULE['tags_updated_tag_action_message'] = 'Tag päivitetään';
-$_COS_LANG_MODULE['tags_deleted_tag_action_message'] = 'Tag poistetaan';
-$_COS_LANG_MODULE['tags_admin_edit'] = 'Muokata';
-$_COS_LANG_MODULE['tags_admin_delete'] = 'Poistaa';
+$_COS_LANG_MODULE['Add another'] = 'Lisää toinen';
+$_COS_LANG_MODULE['Tag has been added'] = 'Tunniste on lisätty';
+$_COS_LANG_MODULE['Tag has been updated'] = 'Tag on päivitetty';
+$_COS_LANG_MODULE['Tag has been deleted'] = 'Tag on poistettu';
+$_COS_LANG_MODULE['Edit'] = 'Muokata';
+$_COS_LANG_MODULE['Delete'] = 'Poistaa';
 $_COS_LANG_MODULE['tags_label'] = 'Tunnisteet';
 $_COS_LANG_MODULE['Tags'] = 'Tunnisteet';
 $_COS_LANG_MODULE['Tags has been deleted!'] = 'Tunnisteet on poistettu!';
 $_COS_LANG_MODULE['Not sufficient privileges. Super user is required'] = 'Ei riittäviä käyttöoikeuksia. Super Käyttäjä on velvollinen';
-$_COS_LANG_MODULE['tags_delete_tags_legend'] = 'Poista tunniste';
-$_COS_LANG_MODULE['tags_submit_delete'] = 'Poistaa';
-$_COS_LANG_MODULE['tags_add_tags_legend'] = 'Lisää Tag';
-$_COS_LANG_MODULE['tags_label_title'] = 'Otsikko';
-$_COS_LANG_MODULE['tags_is_main'] = 'Tärkeimmät katto';
-$_COS_LANG_MODULE['tags_label_description'] = 'Kuvaus';
-$_COS_LANG_MODULE['tags_submit_add'] = 'Lisätä';
-$_COS_LANG_MODULE['tags_submit_update'] = 'Virkistää';
+$_COS_LANG_MODULE['Delete tag'] = 'Poista tunniste';
+$_COS_LANG_MODULE['Add a tag'] = 'Lisää tunniste';
+$_COS_LANG_MODULE['Title'] = 'Otsikko';
+$_COS_LANG_MODULE['Is a main tag'] = 'On tärkein tunniste';
+$_COS_LANG_MODULE['Description'] = 'Kuvaus';
+$_COS_LANG_MODULE['Submit'] = 'Esittää';
+$_COS_LANG_MODULE['Edit tag'] = 'Muokkaa tunnistetta';
+$_COS_LANG_MODULE['Update'] = 'Päivitys';
 $_COS_LANG_MODULE['tags_main'] = 'On tärkein tag';

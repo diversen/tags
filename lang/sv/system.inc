@@ -1,5 +1,5 @@
 <?php
 
-$_COS_LANG_MODULE['tags_title'] = 'Taggar';
-$_COS_LANG_MODULE['tags_menu_list'] = 'Visa alla';
-$_COS_LANG_MODULE['tags_menu_add'] = 'Lägg';
+$_COS_LANG_MODULE['Tags'] = 'Tags';
+$_COS_LANG_MODULE['List tags'] = 'Lista taggar';
+$_COS_LANG_MODULE['Add tag'] = 'Lägg till tagg';

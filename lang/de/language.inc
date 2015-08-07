@@ -1,22 +1,22 @@
 <?php
 
 $_COS_LANG_MODULE['tags_error_no_title'] = 'Kein Titel';
-$_COS_LANG_MODULE['tags_submit_add_another'] = 'Ein weiteres hinzufügen';
-$_COS_LANG_MODULE['tags_added_tag_action_message'] = 'Hinzugefügt Tag';
-$_COS_LANG_MODULE['tags_updated_tag_action_message'] = 'Aktualisiert Tag';
-$_COS_LANG_MODULE['tags_deleted_tag_action_message'] = 'Tag gelöscht';
-$_COS_LANG_MODULE['tags_admin_edit'] = 'Bearbeiten';
-$_COS_LANG_MODULE['tags_admin_delete'] = 'Löschen';
+$_COS_LANG_MODULE['Add another'] = 'Neue hinzufügen';
+$_COS_LANG_MODULE['Tag has been added'] = 'Tag hinzugefügt wurde';
+$_COS_LANG_MODULE['Tag has been updated'] = 'Tag wurde aktualisiert';
+$_COS_LANG_MODULE['Tag has been deleted'] = 'Tag wurde gelöscht';
+$_COS_LANG_MODULE['Edit'] = 'Bearbeiten';
+$_COS_LANG_MODULE['Delete'] = 'Löschen';
 $_COS_LANG_MODULE['tags_label'] = 'Schlagworte';
 $_COS_LANG_MODULE['Tags'] = 'Schlagworte';
 $_COS_LANG_MODULE['Tags has been deleted!'] = 'Tags wurde gelöscht!';
 $_COS_LANG_MODULE['Not sufficient privileges. Super user is required'] = 'Nicht ausreichende Berechtigungen. Super-Benutzer benötigt wird';
-$_COS_LANG_MODULE['tags_delete_tags_legend'] = 'Tag löschen';
-$_COS_LANG_MODULE['tags_submit_delete'] = 'Löschen';
-$_COS_LANG_MODULE['tags_add_tags_legend'] = 'Tag hinzufügen';
-$_COS_LANG_MODULE['tags_label_title'] = 'Titel';
-$_COS_LANG_MODULE['tags_is_main'] = 'Haupt Tag';
-$_COS_LANG_MODULE['tags_label_description'] = 'Beschreibung';
-$_COS_LANG_MODULE['tags_submit_add'] = 'Hinzufügen';
-$_COS_LANG_MODULE['tags_submit_update'] = 'Aktualisierung';
+$_COS_LANG_MODULE['Delete tag'] = 'Tag löschen';
+$_COS_LANG_MODULE['Add a tag'] = 'Add einen tag';
+$_COS_LANG_MODULE['Title'] = 'Titel';
+$_COS_LANG_MODULE['Is a main tag'] = 'Ist einer der wichtigsten Tag';
+$_COS_LANG_MODULE['Description'] = 'Beschreibung';
+$_COS_LANG_MODULE['Submit'] = 'Einreichen';
+$_COS_LANG_MODULE['Edit tag'] = 'Tag bearbeiten';
+$_COS_LANG_MODULE['Update'] = 'Aktualisierung';
 $_COS_LANG_MODULE['tags_main'] = 'Ist Haupt Tag';
