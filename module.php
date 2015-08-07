@@ -375,17 +375,6 @@ EOD;
                         filter('published =', 1)->
                         fetch();
 
-        /*
-          $db = new db_q();
-          $db->setSelectNumRows(self::$tagsReferenceTable);
-          $db->filter('reference_name =', $reference);
-          $db->condition('AND');
-          $db->filter('tags_id =', $tag_id);
-          $db->condition('AND');
-          $db->filter('published =', 1);
-          return $db->fetch();
-         * 
-         */
     }
 
     public function indexAction() {
