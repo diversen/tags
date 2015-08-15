@@ -1,5 +1,7 @@
 <?php
 
+namespace modules\tags;
+
 use diversen\conf;
 use diversen\db;
 use diversen\db\q;
@@ -11,27 +13,9 @@ use diversen\strings;
 use diversen\template;
 use diversen\uri;
 use diversen\view;
+use diversen\moduleloader;
 
-/**
- * File containing main model class for module tags
- * @package tags
- */
-/**
- * This is the model file of the module tags.
- * It provides user interface for adding tags, and also some options for
- * including the tag module both as a event system and as submodule.  
- * @package tags
- */
-/**
- * Tags per page
- */
-define('TAGS_PER_PAGE', conf::getModuleIni('tags_per_page'));
-
-/**
- * class tags 
- * @package tags
- */
-class tags {
+class module {
 
     /**
      * var for holding errors when adding tags with form
@@ -51,6 +35,15 @@ class tags {
      */
     public static $tagsReferenceTable = 'tags_reference';
 
+    /**
+     * constructor
+     */
+    public function __construct() {
+        // make sure to load all ini settings
+        // e.g. when used as a sub module
+        moduleloader::includeModule('tags');
+    }
+    
     /**
      *
      * @param string $name name of the input
@@ -437,11 +430,11 @@ EOD;
      * display index of tags page
      */
     public static function indexController() {
-
+        $per_page = conf::getModuleIni('tags_per_page');
         $num_tags = self::getNumTags();
         $pager = new pagination($num_tags, conf::getModuleIni('tags_per_page'));
         $db = new db();
-        $rows = $db->selectAll(self::$tagsTable, null, null, $pager->from, TAGS_PER_PAGE, 'title');
+        $rows = $db->selectAll(self::$tagsTable, null, null, $pager->from, $per_page, 'title');
         view::includeModuleView('tags', 'view', $rows);
         $pager->pearPage();
     }
@@ -597,15 +590,14 @@ EOF;
         return $rows;
     }
 
-    public static function viewAdminLinks(&$val) {
+    /**
+     * admin links
+     * @param array $tag values of a tag
+     */
+    public static function viewAdminLinks($val) {
         echo html::createLink("/tags/edit/$val[id]", lang::translate('Edit'));
         echo MENU_SUB_SEPARATOR;
         echo html::createLink("/tags/delete/$val[id]", lang::translate('Delete'));
-    }
-
-    public static function eventForm($label) {
-        html::label('tags', lang::translate('Tags'));
-        html::widget('tags', 'defaultWidget', 'tags');
     }
 
     public static function events($params) {
@@ -616,25 +608,25 @@ EOF;
 
         // should sanitize in above functions.
         if ($params['action'] == 'update') {
-            $res = tags::updateReference(
+            $res = self::updateReference(
                             $tags, $params['reference'], $params['parent_id'], $params['published']
             );
         }
 
         if ($params['action'] == 'insert') {
-            $res = tags::addReference(
+            $res = self::addReference(
                             $tags, $params['reference'], $params['parent_id'], $params['published']
             );
         }
 
         if ($params['action'] == 'delete') {
-            $res = tags::deleteReference(
+            $res = self::deleteReference(
                             $params['reference'], $params['parent_id']);
         }
 
         if ($params['action'] == 'form') {
             if (isset($params['parent_id']) && isset($params['reference'])) {
-                $value = tags::getReferenceAsString($params['reference'], $params['parent_id']);
+                $value = self::getReferenceAsString($params['reference'], $params['parent_id']);
             } else {
                 $value = null;
             }
@@ -652,7 +644,7 @@ EOF;
 
         if ($params['action'] == 'view') {
             $params['parent_id'];
-            $tags_html = tags::getTagReferenceAsHTML(
+            $tags_html = self::getTagReferenceAsHTML(
                             $params['reference'], $params['parent_id'], $params['path'] = '/' . $params['reference'] . '/tags'
             );
 
@@ -667,7 +659,7 @@ EOF;
 
         if ($params['action'] == 'get') {
             //$params['parent_id'];
-            $tags_html = tags::getTagReferenceAsHTML(
+            $tags_html = self::getTagReferenceAsHTML(
                             $params['reference'], $params['parent_id'], $params['path'] = '/' . $params['reference'] . '/tags'
             );
 
@@ -710,9 +702,4 @@ EOF;
         // generate tag delete url
         return $site_url . "/tags/api/$action/1/$str";
     }
-
-}
-
-class tags_module extends tags {
-    
 }

@@ -1,6 +1,7 @@
 <?php
 
 use diversen\session;
+use modules\tags\module as tags;
 
 foreach ($vars as $key => $val){
     //echo "<h3>"  . html::createLink("/tags/view/$val[id]", $val['title']) /* $val['title']*/ . "</h3>";
