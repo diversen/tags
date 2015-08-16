@@ -244,12 +244,13 @@ EOD;
     public static function getTagReferenceAsHTML($reference, $id, $tag_page = '') {
         $tags = self::getReferenceAsTags($reference, $id);
         $str = '';
+        $str.= '<i class="fa fa-tags" title="Tags"></i> ';
         $num_tags = count($tags);
 
         foreach ($tags as $key => $val) {
             $url = strings::utf8Slug($tag_page . "/$val[id]", $val['title']);
             $extra = array('title' => $val['description']);
-
+            
             $str.=html::createLink(html::specialEncode($url), $val['title'], $extra);
             $num_tags--;
             if ($num_tags)
@@ -650,7 +651,7 @@ EOF;
 
             $str = '';
             if (!empty($tags_html)) {
-                $str.= lang::translate('Tags') . MENU_SUB_SEPARATOR_SEC;
+                //$str.= lang::translate('Tags') . MENU_SUB_SEPARATOR_SEC;
                 $str.= $tags_html;
                 $str.= "<br />\n";
             }
@@ -665,7 +666,7 @@ EOF;
 
             $str = '';
             if (!empty($tags_html)) {
-                $str.= lang::translate('Tags') . MENU_SUB_SEPARATOR_SEC;
+                //$str.= lang::translate('Tags') . MENU_SUB_SEPARATOR_SEC;
                 $str.= $tags_html;
                 $str.= "<br />\n";
                 return "<div class=\"tags\">$str</div>\n";
