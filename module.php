@@ -244,9 +244,12 @@ EOD;
     public static function getTagReferenceAsHTML($reference, $id, $tag_page = '') {
         $tags = self::getReferenceAsTags($reference, $id);
         $str = '';
-        $str.= '<i class="fa fa-tags" title="Tags"></i> ';
-        $num_tags = count($tags);
 
+        $num_tags = count($tags);
+        if ($num_tags) {
+            $str.= '<i class="fa fa-tags" title="Tags"></i> ';
+        }
+        
         foreach ($tags as $key => $val) {
             $url = strings::utf8Slug($tag_page . "/$val[id]", $val['title']);
             $extra = array('title' => $val['description']);
