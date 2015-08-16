@@ -647,14 +647,12 @@ EOF;
         }
 
         if ($params['action'] == 'view') {
-            $params['parent_id'];
             $tags_html = self::getTagReferenceAsHTML(
                             $params['reference'], $params['parent_id'], $params['path'] = '/' . $params['reference'] . '/tags'
             );
 
             $str = '';
             if (!empty($tags_html)) {
-                //$str.= lang::translate('Tags') . MENU_SUB_SEPARATOR_SEC;
                 $str.= $tags_html;
                 $str.= "<br />\n";
             }
@@ -662,14 +660,12 @@ EOF;
         }
 
         if ($params['action'] == 'get') {
-            //$params['parent_id'];
             $tags_html = self::getTagReferenceAsHTML(
                             $params['reference'], $params['parent_id'], $params['path'] = '/' . $params['reference'] . '/tags'
             );
 
             $str = '';
             if (!empty($tags_html)) {
-                //$str.= lang::translate('Tags') . MENU_SUB_SEPARATOR_SEC;
                 $str.= $tags_html;
                 $str.= "<br />\n";
                 return "<div class=\"tags\">$str</div>\n";
