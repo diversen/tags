@@ -78,7 +78,7 @@ EOD;
      * @return string   uri fragment
      */
     public static function getEntryId() {
-        return uri::$fragments[2];
+        return uri::fragment(2);
     }
 
     /**
@@ -91,13 +91,17 @@ EOD;
             $values = db::prepareToPost($_POST);
             if (isset($_POST['is_main'])) {
                 $values['is_main'] = 1;
+                
             }
         }
 
+        $values['user_id'] = session::getUserId();
         // create a clean tag. 
         $values['title'] = strings::sanitizeUrlSimple($values['title']);
-        if (empty($values['title']))
+        if (empty($values['title'])){
             return false;
+        }
+        print_r($values);
         $res = $db->insert(self::$tagsTable, $values);
         return $res;
     }
