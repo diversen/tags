@@ -254,14 +254,18 @@ EOD;
             $str.= '<i class="fa fa-tags" title="Tags"></i> ';
         }
         
-        foreach ($tags as $key => $val) {
+        foreach ($tags as $val) {
             $url = strings::utf8Slug($tag_page . "/$val[id]", $val['title']);
-            $extra = array('title' => $val['description'], 'class' => 'module_menu');
+            $extra = array(
+                'title' => $val['description'], 
+                'class' => 'module_link',
+                );
             
             $str.=html::createLink(html::specialEncode($url), $val['title'], $extra);
             $num_tags--;
-            if ($num_tags)
+            if ($num_tags) {
                 $str.=MENU_SUB_SEPARATOR;
+            }
         }
         return $str;
     }
