@@ -256,7 +256,7 @@ EOD;
         
         foreach ($tags as $key => $val) {
             $url = strings::utf8Slug($tag_page . "/$val[id]", $val['title']);
-            $extra = array('title' => $val['description']);
+            $extra = array('title' => $val['description'], 'class' => 'module_menu');
             
             $str.=html::createLink(html::specialEncode($url), $val['title'], $extra);
             $num_tags--;
