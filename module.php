@@ -448,7 +448,7 @@ EOD;
         $db = new db();
         $rows = $db->selectAll(self::$tagsTable, null, null, $pager->from, $per_page, 'title');
         view::includeModuleView('tags', 'view', $rows);
-        $pager->pearPage();
+        $pager->echoPagerHTML();
     }
 
     /**
