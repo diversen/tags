@@ -11,6 +11,7 @@ use diversen\pagination;
 use diversen\session;
 use diversen\strings;
 use diversen\template;
+use diversen\template\assets;
 use diversen\uri;
 use diversen\view;
 use diversen\moduleloader;
@@ -68,8 +69,8 @@ EOD;
      * method for loading css and javascript
      */
     public static function initJs() {
-        template::setInlineCss(conf::getModulePath('tags') . "/tags.css");
-        template::setInlineJs(conf::getModulePath('tags') . "/tags.js");
+        assets::setInlineCss(conf::getModulePath('tags') . "/tags.css");
+        assets::setInlineJs(conf::getModulePath('tags') . "/tags.js");
     }
 
     /**
