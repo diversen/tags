@@ -4,7 +4,7 @@ CREATE TABLE `tags` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `title` varchar(256) NOT NULL,
   `is_main` boolean,
-  `description` text DEFAULT '',
+  `description` text,
   `user_id` int(10) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
